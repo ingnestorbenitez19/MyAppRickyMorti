@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "318414415247",
+    "project_id": "myapprickymorti",
+    "storage_bucket": "myapprickymorti.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318414415247:android:c099d1116bb327523057fa",
+        "android_client_info": {
+          "package_name": "com.nes.myapprickymorti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLrz9TIbwv4f1ooR0NfoijZCR6NJlsxgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
