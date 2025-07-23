@@ -6,5 +6,6 @@ object Graph {
     const val HOME = "home_graph"
     const val LIST = "list"
     const val DETAIL = "character_detail"
+    const val AUTHENTICATION = "authentication"
 
 }

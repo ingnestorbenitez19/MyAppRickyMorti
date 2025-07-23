@@ -24,77 +24,77 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 
 
-@Composable
-fun CharacterScreen(viewModel: CharacterViewModel, onCharacterClick: (Int) -> Unit) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Rick and Morty Characters") })
-        }
-    ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            when {
-                uiState.isLoading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-                uiState.errorMessage != null -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Error: ${uiState.errorMessage}",
-                            color = MaterialTheme.colors.error
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = { viewModel.loadCharacters() }) {
-                            Text("Reintentar")
-                        }
-                    }
-                }
-                else -> {
-                    LazyColumn {
-                        items(uiState.characters) { character ->
-                            CharacterItem(
-                                character = character,
-                                onClick = { onCharacterClick(character.id) }
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun CharacterItem(character: CharacterResult, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clickable { onClick() },
-        elevation = 4.dp
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = character.name,
-                style = MaterialTheme.typography.h6
-            )
-            Text(
-                text = "ID: ${character.id}",
-                style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
-            )
-        }
-    }
-}
+//@Composable
+//fun CharacterScreen(viewModel: CharacterViewModel, onCharacterClick: (Int) -> Unit) {
+//    val uiState by viewModel.uiState.collectAsState()
+//
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(title = { Text("Rick and Morty Characters") })
+//        }
+//    ) { padding ->
+//        Box(modifier = Modifier.padding(padding)) {
+//            when {
+//                uiState.isLoading -> {
+//                    Box(
+//                        modifier = Modifier.fillMaxSize(),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        CircularProgressIndicator()
+//                    }
+//                }
+//                uiState.errorMessage != null -> {
+//                    Column(
+//                        modifier = Modifier.fillMaxSize(),
+//                        verticalArrangement = Arrangement.Center,
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        Text(
+//                            text = "Error: ${uiState.errorMessage}",
+//                            color = MaterialTheme.colors.error
+//                        )
+//                        Spacer(modifier = Modifier.height(16.dp))
+//                        Button(onClick = { viewModel.loadCharacters() }) {
+//                            Text("Reintentar")
+//                        }
+//                    }
+//                }
+//                else -> {
+//                    LazyColumn {
+//                        items(uiState.characters) { character ->
+//                            CharacterItem(
+//                                character = character,
+//                                onClick = { onCharacterClick(character.id) }
+//                            )
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//@Composable
+//fun CharacterItem(character: CharacterResult, onClick: () -> Unit) {
+//    Card(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(vertical = 4.dp)
+//            .clickable { onClick() },
+//        elevation = 4.dp
+//    ) {
+//        Column(
+//            modifier = Modifier.padding(16.dp)
+//        ) {
+//            Text(
+//                text = character.name,
+//                style = MaterialTheme.typography.h6
+//            )
+//            Text(
+//                text = "ID: ${character.id}",
+//                style = MaterialTheme.typography.body2,
+//                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+//            )
+//        }
+//    }
+//}

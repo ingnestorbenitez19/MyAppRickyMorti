@@ -2,6 +2,7 @@ package com.nes.myapprickymorti.presentation.screens.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
@@ -9,6 +10,7 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,32 +33,33 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
 
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
+        HomeBottomBarScreen.Characters,
         HomeBottomBarScreen.Posts,
-        HomeBottomBarScreen.MyPosts,
-        HomeBottomBarScreen.Profile
+        HomeBottomBarScreen.MyPosts
     )
 
-//    val navBackStackEntry by navController.currentBackStackEntryAsState()
-//    val currentDestination = navBackStackEntry?.destination
-//    val bottomBarDestination = screens.any {
-//        it.route == currentDestination?.route
-//    }
-//
-//    if (bottomBarDestination) {
-//        BottomNavigation {
-//            screens.forEach { screen ->
-//                AddItem(
-//                    screen = screen,
-//                    currentDestination = currentDestination,
-//                    navController = navController
-//                )
-//            }
-//        }
-//    }
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val bottomBarDestination = screens.any {
+        it.route == currentDestination?.route
+    }
+
+    if (bottomBarDestination) {
+        BottomNavigation {
+            screens.forEach { screen ->
+                AddItem(
+                    screen = screen,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
+        }
+    }
 
 }
 
@@ -90,8 +93,8 @@ fun RowScope.AddItem(
             }
         })
 
-
 }
+
 
 
 

@@ -8,10 +8,14 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RickAndMortyApiService {
     @GET("api/character")
     suspend fun getCharacters(): CharacterApiResponse
+
+    @GET("api/character")
+    suspend fun getCharacters(@Query("page") page: Int): CharacterApiResponse
 
     @GET("api/character/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): CharacterResult
