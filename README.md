@@ -51,7 +51,8 @@ Aplicación de Android que muestra información sobre personajes y episodios de 
 *   `presentation`: Contiene la UI (Composable functions, ViewModels) y la lógica de presentación.
 *   `di`: (Si aplicable) Módulos de inyección de dependencias (Hilt).
 
-##Acceso
+## Acceso
+
 usuario: nestor@mail.com
 contraseña: 123456
 
