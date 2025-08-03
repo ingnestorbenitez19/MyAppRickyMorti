@@ -50,3 +50,10 @@ Aplicación de Android que muestra información sobre personajes y episodios de 
 *   `domain`: (Si aplicable) Contiene los casos de uso y modelos de dominio.
 *   `presentation`: Contiene la UI (Composable functions, ViewModels) y la lógica de presentación.
 *   `di`: (Si aplicable) Módulos de inyección de dependencias (Hilt).
+
+## Acceso
+
+usuario: nestor@mail.com
+contraseña: 123456
+
+
