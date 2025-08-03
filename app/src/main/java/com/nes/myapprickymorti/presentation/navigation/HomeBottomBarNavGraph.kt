@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 
 import com.nes.myapprickymorti.presentation.screens.characters.CharactersScreen
 import com.nes.myapprickymorti.presentation.screens.characterdetail.DetailCharacterScreen
+import com.nes.myapprickymorti.presentation.screens.favourites.FavouritesScreen
 import com.nes.myapprickymorti.presentation.screens.posts.PostsScreen
 
 
@@ -43,14 +44,9 @@ fun HomeBottomBarNavGraph(navController: NavHostController) {
             PostsScreen(navController)
         }
 
-        composable(route = HomeBottomBarScreen.MyPosts.route) {
-            PostsScreen(navController)
+        composable(route = HomeBottomBarScreen.MyFavourites.route) {
+            FavouritesScreen(navController)
         }
-
-
-//        composable(route = HomeBottomBarScreen.MyPosts.route) {
-//            MyPostsScreen(navController)
-//        }
 
     }
 }
@@ -65,12 +61,12 @@ sealed class HomeBottomBarScreen(
 
     object Posts: HomeBottomBarScreen(
         route = "posts",
-        title = "Posts",
+        title = " ",
         icon = Icons.Outlined.List
     )
-    object MyPosts: HomeBottomBarScreen(
+    object MyFavourites: HomeBottomBarScreen(
         route = "my_posts",
-        title = "Mis Posts",
+        title = "Mis Favoritos",
         icon = Icons.Outlined.FormatListBulleted
     )
     object Characters: HomeBottomBarScreen(
@@ -78,14 +74,5 @@ sealed class HomeBottomBarScreen(
         title = "Personajes",
         icon = Icons.Outlined.ViewList
     )
-
-
-
-//    object Profile: HomeBottomBarScreen(
-//        route = "profile",
-//        title = "Perfil",
-//        icon = Icons.Default.Person
-//    )
-
 
 }

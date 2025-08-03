@@ -19,7 +19,6 @@ fun LoginScreen(navController: NavHostController) {
         bottomBar = { LoginBottomBar(navController) }
     )
 
-    //Manejar el estado de la peticion de Login
     Login(navController = navController)
 
 }

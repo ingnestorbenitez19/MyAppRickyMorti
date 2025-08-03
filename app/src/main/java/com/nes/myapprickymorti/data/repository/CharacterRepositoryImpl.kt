@@ -4,6 +4,8 @@ package com.nes.myapprickymorti.data.repository
 import com.nes.myapprickymorti.data.remote.RickAndMortyApiService
 import com.nes.myapprickymorti.data.remote.dto.CharacterDTO
 import com.nes.myapprickymorti.data.remote.dto.CharacterResponseDTO
+import com.nes.myapprickymorti.data.remote.dto.EpisodeDTO
+import com.nes.myapprickymorti.data.remote.dto.EpisodeResult
 import com.nes.myapprickymorti.data.remote.dto.InfoDTO
 import com.nes.myapprickymorti.domain.repository.CharacterRepository
 import javax.inject.Inject
@@ -32,7 +34,8 @@ class CharacterRepositoryImpl @Inject constructor(
                     species = characterResult.species,
                     type = characterResult.type,
                     gender = characterResult.gender,
-                    image = characterResult.image
+                    image = characterResult.image,
+                    episode = characterResult.episode
                 )
             }
         )
@@ -48,28 +51,73 @@ class CharacterRepositoryImpl @Inject constructor(
             species = result.species,
             type = result.type,
             gender = result.gender,
-            image = result.image
+            image = result.image,
+            episode = result.episode
         )
+    }
+
+    override suspend fun getEpisodesByIds(ids: List<Int>): List<EpisodeDTO> {
+        if (ids.isEmpty()) return emptyList()
+        return if (ids.size == 1) {
+            val episode = apiService.getEpisodeById(ids.first())
+            listOf(
+                EpisodeDTO(
+                    id = episode.id,
+                    name = episode.name,
+                    episode = episode.episode,
+                    air_date = episode.air_date
+                )
+            )
+        } else {
+            apiService.getEpisodesByIds(ids.joinToString(",")).map { episode ->
+                EpisodeDTO(
+                    id = episode.id,
+                    name = episode.name,
+                    episode = episode.episode,
+                    air_date = episode.air_date
+                )
+            }
+        }
+    }
+
+    override suspend fun getCharactersByIds(ids: List<Int>): List<CharacterDTO> {
+
+        if (ids.isEmpty()) return emptyList()
+        return if (ids.size == 1) {
+            val character = apiService.getCharacterById(ids.first())
+            listOf(
+                CharacterDTO(
+                    id = character.id,
+                    name = character.name,
+                    status = character.status,
+                    species = character.species,
+                    type = character.type,
+                    gender = character.gender,
+                    image = character.image,
+                    episode = character.episode
+                )
+            )
+        } else {
+
+            apiService.getCharactersByIds(ids.joinToString(",")).map { character ->
+                CharacterDTO(
+                    id = character.id,
+                    name = character.name,
+                    status = character.status,
+                    species = character.species,
+                    type = character.type,
+                    gender = character.gender,
+                    image = character.image,
+                    episode = character.episode
+                )
+            }
+        }
+
+
+
     }
 
 
 
-//    override fun getCharactersHardcode(): Flow<Response<List<CharacterDTO>>> = callbackFlow {
-//
-//        val dummyCharacters = listOf(
-//            CharacterDTO(
-//                id = 1,
-//                name = "Rick Sanchez"
-//            ),
-//            CharacterDTO(
-//                id = 2,
-//                name = "Morty Smith"
-//            )
-//        )
-//
-//        trySend(Response.Success(dummyCharacters))
-//
-//        awaitClose {}
-//    }
 
 }

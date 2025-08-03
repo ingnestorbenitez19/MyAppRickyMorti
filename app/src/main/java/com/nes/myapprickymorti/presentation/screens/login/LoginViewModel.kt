@@ -123,16 +123,4 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
 
     }
 
-    //Hardcode Login
-    var loginResponseHardcode by mutableStateOf<Response<LoginUser>?>(null)
-
-    fun loginHardcode() = viewModelScope.launch{
-
-        loginResponseHardcode = Response.Loading
-        val result = authUseCases.loginHardcode(state.email, state.password)
-        loginResponseHardcode = result
-
-    }
-
-
 }

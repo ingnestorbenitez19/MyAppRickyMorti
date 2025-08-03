@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 data class EpisodeResult(
     @SerialName("id") val id: Int,
     @SerialName("name") val name: String,
-    @SerialName("episode") val episode: String
+    @SerialName("episode") val episode: String,
+    @SerialName("air_date") val air_date: String
 
 )
 

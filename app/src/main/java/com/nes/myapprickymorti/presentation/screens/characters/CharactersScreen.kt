@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.nes.myapprickymorti.presentation.screens.characters.components.FiltersRow
 import com.nes.myapprickymorti.presentation.screens.characters.components.GetCharacters
 import com.nes.myapprickymorti.presentation.screens.characters.components.SearchTopAppBar
 import com.nes.myapprickymorti.presentation.screens.posts.components.GetPosts
@@ -40,27 +41,41 @@ fun CharactersScreen(navController: NavHostController, viewModel: CharacterViewM
 
     Log.i("CharactersScreen", "CharactersScreen")
 
-    //var searchText by remember { mutableStateOf("") }
     val searchText by viewModel.searchText.collectAsState()
     var isSearching by remember { mutableStateOf(false) }
+
+    val statusOptions = listOf("Alive", "Dead", "unknown")
+    val speciesOptions by viewModel.filteredCharacters.collectAsState()
+    val allSpecies = speciesOptions.map { it.species }.distinct().filter { it.isNotBlank() }
+
+    val selectedStatus by viewModel.statusFilter.collectAsState()
+    val selectedSpecies by viewModel.speciesFilter.collectAsState()
 
     Scaffold(
         topBar = {
             //TopAppBar(title = { Text("Rick and Morty") })
             SearchTopAppBar(
                 searchText = searchText,
-                //onSearchTextChange = { searchText = it },
                 onSearchTextChange = { viewModel.onSearchTextChange(it) },
                 isSearching = isSearching,
                 onSearchToggle = { isSearching = !isSearching },
                 onSearch = {
-                    // Aquí puedes llamar a tu ViewModel para buscar
                     Log.d("Search", "Buscando: $searchText")
                 }
             )
         },
         content = {
-            GetCharacters(viewModel = viewModel, navController = navController)
+            Column {
+                FiltersRow(
+                    statusOptions = statusOptions,
+                    speciesOptions = allSpecies,
+                    selectedStatus = selectedStatus,
+                    selectedSpecies = selectedSpecies,
+                    onStatusChange = { viewModel.onStatusFilterChange(it) },
+                    onSpeciesChange = { viewModel.onSpeciesFilterChange(it) }
+                )
+                GetCharacters(viewModel = viewModel, navController = navController)
+            }
         }
     )
 

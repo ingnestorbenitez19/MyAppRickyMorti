@@ -10,7 +10,8 @@ data class CharacterDTO(
     val species: String = "",
     val type: String = "",
     val gender: String = "",
-    val image: String = ""
+    val image: String = "",
+    val episode: List<String> = emptyList()
 
 ){
 
@@ -21,7 +22,8 @@ data class CharacterDTO(
         species,
         type,
         gender,
-        image
+        image,
+        episode
     ))
 
     companion object{

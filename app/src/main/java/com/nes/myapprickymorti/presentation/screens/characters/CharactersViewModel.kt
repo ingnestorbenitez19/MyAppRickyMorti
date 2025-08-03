@@ -1,9 +1,11 @@
 package com.nes.myapprickymorti.presentation.screens.characters
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nes.myapprickymorti.data.remote.dto.CharacterDTO
+import com.nes.myapprickymorti.data.remote.dto.EpisodeDTO
 import com.nes.myapprickymorti.domain.model.Response
 import com.nes.myapprickymorti.domain.use_cases.getcharacters.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,34 +24,21 @@ class CharacterViewModel @Inject constructor(
 
 
 
-    //val characters: Flow<PagingData<CharacterDTO>> = charactersUseCases.getCharacters().cachedIn(viewModelScope)
-
-//    val characters: Flow<PagingData<CharacterDTO>> = charactersResponse.getCharacters().cachedIn(viewModelScope)
-
-
-
-//    var charactersResponse by mutableStateOf<Response<List<CharacterDTO>>?>(null)
-//
-//    init {
-//        getCharacters()
-//    }
-//
-//    fun getCharacters() = viewModelScope.launch {
-//
-//        charactersResponse = Response.Loading
-//        charactersUseCases.getCharacters().collect() { response ->
-//            charactersResponse = response
-//        }
-//    }
-
-
-
     private val _characters = MutableStateFlow<Response<List<CharacterDTO>>>(Response.Loading)
     val characters: StateFlow<Response<List<CharacterDTO>>> = _characters
 
+    private val _statusFilter = MutableStateFlow<String?>(null)
+    val statusFilter: StateFlow<String?> = _statusFilter
+
+    private val _speciesFilter = MutableStateFlow<String?>(null)
+    val speciesFilter: StateFlow<String?> = _speciesFilter
 
     private val _searchText = MutableStateFlow("")
     val searchText: StateFlow<String> = _searchText
+
+    private val _episodes = MutableStateFlow<Response<List<EpisodeDTO>>>(Response.Loading)
+    val episodes: StateFlow<Response<List<EpisodeDTO>>> = _episodes
+
 
     private var currentPage = 1
     private var isLastPage = false
@@ -59,6 +48,17 @@ class CharacterViewModel @Inject constructor(
 
     private val _filteredCharacters = MutableStateFlow<List<CharacterDTO>>(emptyList())
     val filteredCharacters: StateFlow<List<CharacterDTO>> = _filteredCharacters
+
+
+    fun onStatusFilterChange(newStatus: String?) {
+        _statusFilter.value = newStatus
+        filterCharacters(_searchText.value)
+    }
+
+    fun onSpeciesFilterChange(newSpecies: String?) {
+        _speciesFilter.value = newSpecies
+        filterCharacters(_searchText.value)
+    }
 
 
 
@@ -91,16 +91,28 @@ class CharacterViewModel @Inject constructor(
     }
 
 
+//    private fun filterCharacters(query: String) {
+//        val filtered = if (query.isBlank()) {
+//            loadedCharacters
+//        } else {
+//            loadedCharacters.filter {
+//                it.name.contains(query, ignoreCase = true)
+//            }
+//        }
+//        _filteredCharacters.value = filtered
+//    }
+
+
     private fun filterCharacters(query: String) {
-        val filtered = if (query.isBlank()) {
-            loadedCharacters
-        } else {
-            loadedCharacters.filter {
-                it.name.contains(query, ignoreCase = true)
-            }
+        val filtered = loadedCharacters.filter { character ->
+            (query.isBlank() || character.name.contains(query, ignoreCase = true)) &&
+                    (statusFilter.value.isNullOrBlank() || character.status.equals(statusFilter.value, ignoreCase = true)) &&
+                    (speciesFilter.value.isNullOrBlank() || character.species.equals(speciesFilter.value, ignoreCase = true))
         }
         _filteredCharacters.value = filtered
     }
+
+
 
     fun getCharacterById(id: Int): CharacterDTO? {
         return loadedCharacters.find { it.id == id }
@@ -108,6 +120,25 @@ class CharacterViewModel @Inject constructor(
 
     suspend fun getCharacterDetailFromApi(id: Int): CharacterDTO {
         return charactersResponse.getCharacterById(id)
+    }
+
+
+    fun loadEpisodes(episodeUrls: List<String>) {
+        Log.i("CharactersViewModel", "Entra a loadEpisodes con ${episodeUrls.size} URLs")
+        viewModelScope.launch {
+            _episodes.value = Response.Loading
+            try {
+                val ids = episodeUrls.mapNotNull { url ->
+                    url.substringAfterLast("/").toIntOrNull()
+                }
+                val episodes = charactersResponse.getEpisodesByIds(ids)
+                Log.i("CharactersViewModel", "Episodios cargados: ${episodes.size}")
+                _episodes.value = Response.Success(episodes)
+            } catch (e: Exception) {
+                Log.e("CharactersViewModel", "Error al cargar episodios", e)
+                _episodes.value = Response.Failure(e)
+            }
+        }
     }
 
 

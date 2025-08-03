@@ -39,7 +39,7 @@ fun BottomBar(navController: NavHostController) {
     val screens = listOf(
         HomeBottomBarScreen.Characters,
         HomeBottomBarScreen.Posts,
-        HomeBottomBarScreen.MyPosts
+        HomeBottomBarScreen.MyFavourites
     )
 
 

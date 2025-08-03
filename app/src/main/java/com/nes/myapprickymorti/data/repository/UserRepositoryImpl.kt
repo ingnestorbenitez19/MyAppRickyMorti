@@ -25,10 +25,6 @@ class UserRepositoryImpl @Inject constructor(
     @Named(USERS) private val storageUsersRef: StorageReference): UsersRepository {
 
 
-    //    Manera clasica sin inyeccion de dependencias
-//    val firestore = Firebase.firestore
-//    val usersRef = firestore.collection("Usuarios")
-
     override suspend fun create(user: User): Response<Boolean> {
 
         return try{

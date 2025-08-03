@@ -1,6 +1,7 @@
 package com.nes.myapprickymorti.presentation.screens.login.components
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,16 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.nes.myapprickymorti.R
 import com.nes.myapprickymorti.presentation.components.DefaultButton
 import com.nes.myapprickymorti.presentation.components.DefaultTextField
+import com.nes.myapprickymorti.presentation.navigation.Graph
+import com.nes.myapprickymorti.presentation.screens.authbiometric.showBiometricPrompt
 import com.nes.myapprickymorti.presentation.screens.login.LoginViewModel
 import com.nes.myapprickymorti.ui.theme.Darkgray500
 import com.nes.myapprickymorti.ui.theme.Red500
@@ -60,12 +65,12 @@ fun LoginContent(navaController: NavHostController, paddingValues: PaddingValues
 
             ) {
 
+                Text("App Rick and Morty")
                 Image(
                     modifier = Modifier.height(130.dp),
-                    painter = painterResource(id = R.drawable.control),
-                    contentDescription = "Control de xbox 360"
+                    painter = painterResource(id = R.drawable.rick_morty),
+                    contentDescription = ""
                 )
-                Text("FIREBASE MVVM")
 
             }
         }
@@ -131,39 +136,38 @@ fun LoginContent(navaController: NavHostController, paddingValues: PaddingValues
                     .padding(vertical = 40.dp),
                 text = "INICIAR SESION",
                 onClick = {
-/*                    Log.d("LoginContent", "Email: ${loginViewModel.email.value}")
-                    Log.d("LoginContent", "Password: ${loginViewModel.password.value}")*/
                     loginViewModel.login()
                 },
                 enabled = loginViewModel.isEnabledLoginButton
             )
+            val context = LocalContext.current
+            DefaultButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
+                text = "INICIAR CON HUELLA / FACEID",
+                onClick = {
+                    val activity = context as? FragmentActivity
+                    if (activity != null) {
+                        showBiometricPrompt(
+                            activity = activity,
+                            onSuccess = {
 
-            //Login Hardcode
-//            DefaultButton(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(vertical = 40.dp),
-//                text = "INICIAR SESION HARD",
-//                onClick = {
-//                    loginViewModel.loginHardcode()
-//                },
-//                enabled = loginViewModel.isEnabledLoginButton
-//            )
+                                navaController.navigate(Graph.HOME) {
+                                    popUpTo(Graph.AUTHENTICATION) { inclusive = true }
+                                }
+                            },
+                            onError = { errorMsg ->
+                                Log.i("LoginContent", errorMsg)
+                            }
+                        )
+                    }
+                },
+                enabled = true
+            )
 
         }
     }
 
 }
 
-
-
-@Composable
-fun BoxHeader() {
-
-}
-
-
-@Composable
-fun CardForm(loginViewModel: LoginViewModel){
-
-}

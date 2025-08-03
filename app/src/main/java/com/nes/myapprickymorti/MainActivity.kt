@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.nes.myapprickymorti.presentation.navigation.RootNavGraph
@@ -23,7 +24,7 @@ import com.nes.myapprickymorti.ui.theme.MyAppRickyMortiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
 
     private lateinit var navController: NavHostController
