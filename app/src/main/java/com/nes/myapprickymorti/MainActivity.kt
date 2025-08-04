@@ -13,7 +13,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
@@ -34,12 +36,11 @@ class MainActivity : FragmentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppRickyMortiTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android Nes",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
+
+                val navBarColor = MaterialTheme.colors.background.toArgb()
+                SideEffect {
+                    window.navigationBarColor = navBarColor
+                }
 
                 Surface(
                     modifier = Modifier.fillMaxSize()
@@ -54,19 +55,3 @@ class MainActivity : FragmentActivity() {
         }
     }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    MyAppRickyMortiTheme {
-//        Greeting("Nes")
-//    }
-//}
